@@ -19,10 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('produtos', 'ControllerProduto@indexJson');
-Route::get('vendas', 'ControllerVenda@indexJson');
 Route::post('novoProduto', 'ControllerProduto@create');
 Route::post('novaVenda', 'ControllerVenda@update');
 Route::post('deletaProduto/{id}', 'ControllerProduto@delete');
+Route::get('produto/{id}', 'ControllerProduto@get');
+Route::post('editaProduto/{id}', 'ControllerProduto@update');
+
+
+Route::get('vendas', 'ControllerVenda@indexJson');
+Route::post('novaVenda', 'ControllerVenda@create');
 
 
 

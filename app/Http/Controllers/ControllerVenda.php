@@ -14,6 +14,18 @@ class ControllerVenda
         return json_encode($venda);
     }
 
+    public function create(Request $request)
+    {
+        $venda = new Venda;
+        $venda->nome_cliente = $request->input('nomeCliente');
+        $venda->id_produto = $request->input('produto');
+        $venda->total_venda = $request->input('totalVenda');
+        $venda->forma_pagamento = $request->input('formaPagamento');
+        $venda->save();
+
+        return $this->indexJson();
+    }
+
     public function update(Request $request)
     {
         $rTimeCasa =  $request->input('timeCasa');

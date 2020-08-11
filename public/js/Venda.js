@@ -24,81 +24,125 @@ class VendaCtrl {
         var html
         for (var i = 0; i < data.length; i++) {
             html += "<tr><th scope='row'>" + (i + 1) + "</th><td>" + data[i].codigo_item + "</td>><td>" + data[i].nome_cliente + "</td><td><b>" + data[i].codigo_item + "</b></td><td>" +
-                data[i].total_venda + "</td><td>" + data[i].forma_pagamento + "</td><td>" + data[i].created_at + "</td><td>" + data[i].updated_at + "</td></tr>"
+                data[i].total_venda + "</td><td>" + data[i].forma_pagamento + "</td></tr>" +
+                "<td><button class='btn btn-outline-info mb-2' data-toggle='modal' data-target='#exampleModal' id='" + data[i].id + "'>Editar</button></td>" +
+                "<td><button class='btn btn-outline-danger mb-2' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
         }
         $("#tbody").html(html)
     }
 
     registerEvents() {
 
-        // $("#insConfronto").click(function() {
-        //     var data = main.getVendas()
-        //     var html
-        //     for (var i = 0; i < data.length; i++) {
-        //         html += "<option value='" + data[i].id + "'>" + data[i].nome_clube + "</option>"
-        //     }
-        //     $("#timeCasa").append(html)
-        //     $("#visitante").append(html)
+        // $('#valorCompra').mask('#.##0,00', { reverse: true });
+        // $('#valorVenda').mask('#.##0,00', { reverse: true });
 
-        // })
+        $("#submit").click(function() {
+            var obj = new Object()
+            var main = new Main()
+            obj.nomeCliente = $("#nomeCliente").val()
+            obj.produto = $("#produto").val()
+            obj.quantidade = parseInt($("#quantidade").val())
+            obj.numeracao = parseInt($("#numeracao").val())
+            obj.formaPagamento = parseFloat($("#formaPagamento").val()).toFixed(2)
 
-        // $("#timeCasa").change(this, function() {
-        //     $("#visitante option").attr("disabled", false)
-        //     $("#visitante option[value=" + this.value + "]").attr("disabled", true)
-        // })
+            // if (obj.fabrica === "" || obj.modelo === "" || obj.numeracao === NaN || obj.numeracao <= 0 || obj.quantidade === NaN || obj.quantidade <= 0 || obj.valorCompra == NaN || obj.valorVenda == NaN) {
+            //     main.setError("Por favor preencha todos os campos.")
+            //     return
+            // }
 
-        // $("#visitante").change(this, function() {
-        //     $("#timeCasa option").attr("disabled", false)
-        //     $("#timeCasa option[value=" + this.value + "]").attr("disabled", true)
-        // })
+            // if (obj.valorCompra <= 0 || obj.valorVenda <= 0 || obj.numeracao <= 0 || obj.quantidade <= 0) {
+            //     main.setError("Campos numerais devem ser maiores que zero")
+            //     return
+            // }
 
-        // $("#submit").click(function() {
-        //     var obj = new Object()
-        //     obj.timeCasa = parseInt($("#timeCasa").val())
-        //     obj.visitante = parseInt($("#visitante").val())
-        //     obj.golsTimeCasa = parseInt($("#golsTimeCasa").val())
-        //     obj.golsVisitante = parseInt($("#golsVisitante").val())
+            $("#error").addClass("d-none");
 
-        //     if (obj.timeCasa === 0 || obj.visitante === 0 || obj.golsTimeCasa === NaN || !golsVisitante == NaN) {
-        //         main.setError("Por favor preencha todos os campos.")
-        //         return
-        //     }
+            var apis = new Apis()
 
-        //     $("#error").addClass("d-none");
 
-        //     var apis = new Apis()
-        //     apis.postData(obj, function(data) {
-        //         apis.Vendas = data
-        //         var main = new Main()
-        //         main.renderData(apis)
+            if ($("#submit").attr("meta") == "") {
+                apis.postVendaData(obj, function(data) {
+                    apis.vendas = data
+                    var venda = new VendaCtrl()
+                    venda.renderData(apis)
 
-        //         $("#exampleModal").modal('hide')
-        //         $("#golsTimeCasa").val("0")
-        //         $("#golsVisitante").val("0")
-        //         $("#timeCasa").val("0")
-        //         $("#visitante").val("0")
-        //     })
+                    $("#exampleModal").modal('hide')
+                    main.setSuccess("Cadastro realizado com sucesso!")
 
-        //     event.stopPropagation()
-        // })
+                })
+            } else {
+                apis.updateProdutoData($("#submit").attr("meta-id"), obj, function(data) {
+                    apis.produtos = data
+                    var produto = new ProdutoCtrl()
+                    produto.renderData(apis)
 
+                    $("#exampleModal").modal('hide')
+                    main.setSuccess("Atualização realizada com sucesso!")
+                })
+            }
+
+            event.stopPropagation()
+        })
+
+        $(".btn-outline-danger").click(function() {
+            var id = $(this).attr("id");
+            $("#msgAlert").append("Tem certeza que deseja excluir o registro <strong class='ml-1'> CODIGO: " + id + " ?</strong>")
+            $("#submitAlert").attr("meta", id)
+        })
+
+        $(".btn-outline-info").click(function() {
+            var id = $(this).attr("id");
+            var api = new Apis()
+            api.getProdutoData(id);
+        })
+
+        $("#submitAlert").click(function() {
+            var main = new Main()
+            var api = new Apis()
+
+            var id = $(this).attr("meta")
+            api.deleteProdutoData(id)
+        })
+
+        $('#modalAlert').on('hidden.bs.modal', function(e) {
+            $("#msgAlert").html("")
+            $("#submitAlert").attr("meta", "")
+        })
+
+        $('#exampleModal').on('hidden.bs.modal', function(e) {
+            $("#submit").attr("meta", "")
+            $("#submit").attr("meta-id", "")
+        })
+
+        $('#insConfronto').click(function() {
+            $("#produto").html("<option selected> - </option")
+            var api = new Apis()
+            api.loadProdutosData(function(data) {
+                data.forEach(i => {
+                    $("#produto").append("<option value='" + i.id + "'> " + i.nome_modelo + " N°- " + i.tamanho_numeracao + " </option>")
+                });
+            })
+        })
+
+        $("#produto").change(function() {
+            var api = new Apis()
+
+            var id = $("#produto option:selected").val()
+
+            api.getProduto(id, function(data) {
+                $("#quantidade").attr("max", data[0].quantidade_produto)
+                $("#quantidade").attr("placeholder", "Quantidade em estoque: " +
+                    data[0].quantidade_produto)
+                $("#numeracao").val(data[0].tamanho_numeracao)
+                $("#numeracao").attr("disabled", true)
+            })
+
+        })
     }
 
     setError(msg) {
         $("#error").html(msg)
         $("#error").removeClass("d-none")
-    }
-
-    setSituacao(index) {
-        if (index == 0) return "campeao"
-
-        else if (index > 0 && index <= 6) return "libertadores"
-
-        else if (index > 6 && index <= 13) return "sulamericana"
-
-        else if (index > 15 && index <= 19) return "rebaixamento"
-
-        else return ""
     }
 
     getVendas() {

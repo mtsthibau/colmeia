@@ -29,28 +29,28 @@ class ControllerProduto
         return $this->indexJson();
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $rTimeCasa =  $request->input('timeCasa');
-        $rGolsTimeCasa =  $request->input('golsTimeCasa');
-        $rVisitante = $request->input('visitante');
-        $rGolsVisitante =  $request->input('golsVisitante');
+        // if (
+        //     $rTimeCasa == null || $rVisitante == null || $rGolsTimeCasa  == null
+        //     || $rGolsVisitante == null || $rGolsTimeCasa < 0 || $rGolsVisitante < 0
+        //     || $rTimeCasa == 0 || $rVisitante == 0
+        // ) {
+        //     return response()->json([
+        //         'error' => 'Dados inválidos, tente novamente.'
+        //     ]);
+        // }
 
-        if (
-            $rTimeCasa == null || $rVisitante == null || $rGolsTimeCasa  == null
-            || $rGolsVisitante == null || $rGolsTimeCasa < 0 || $rGolsVisitante < 0
-            || $rTimeCasa == 0 || $rVisitante == 0
-        ) {
-            return response()->json([
-                'error' => 'Dados inválidos, tente novamente.'
-            ]);
-        }
+        $produto = Produto::find($id);
 
-        $timeCasa = Produto::find($rTimeCasa);
-        $visitante = Produto::find($rVisitante);
+        $produto->nome_fabrica = $request->input('fabrica');
+        $produto->nome_modelo = $request->input('modelo');
+        $produto->tamanho_numeracao = $request->input('numeracao');
+        $produto->quantidade_produto = $request->input('quantidade');
+        $produto->valor_compra = $request->input('valorVenda');
+        $produto->valor_venda = $request->input('valorCompra');
+        $produto->save();
 
-        $timeCasa->save();
-        $visitante->save();
         return $this->indexJson();
     }
 
@@ -61,5 +61,11 @@ class ControllerProduto
         return $this->indexJson();
     }
 
+    public function get(Request $request, $id)
+    {
+        $produto = Produto::where("quantidade_produto", ">", "0")->
+        where("id", "=", $id)->get();
+        return json_encode($produto);
+    }
 
 }

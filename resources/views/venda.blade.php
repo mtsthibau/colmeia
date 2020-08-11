@@ -49,7 +49,7 @@
 
     <content>
         <div class="ml-4 mr-4">
-        <div class="alert alert-success d-none ml-3" role="alert" id="success"></div>
+            <div class="alert alert-success d-none ml-3" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">Nova Venda</button>
             <table class="table table-striped">
                 <thead>
@@ -60,8 +60,6 @@
                         <th scope="col">Numeração</th>
                         <th scope="col">Total</th>
                         <th scope="col">Forma de Pagamento</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Data 2</th>
                     </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
@@ -91,10 +89,7 @@
                             <label class="input-group">Produto</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="produto" placeholder="Selecione um produto">
-                                    <option selected> </option>
-                                    <option value="Boleto">Boleto</option>
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Cartão">Cartão</option>
+                                    <option selected> - </option>
                                 </select>
                             </div>
                             <label class="input-group">Quantidade</label>
@@ -118,6 +113,8 @@
                             <div class="input-group mb-3">
                                 <input type="number" id="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" min="0">
                             </div> -->
+
+                            <h3>TOTAL - R$ <span id="valorTotal"></span> </h3>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -127,13 +124,41 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        @section('scripts')
-        <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Produto.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Venda.js') }}" type="text/javascript"></script>
+    <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="modalAlertLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAlertLabel">CONFIRMAÇÃO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-12">
+                            <label class="input-group" id="msgAlert"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="submitAlert">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section('scripts')
+    <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Produto.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Venda.js') }}" type="text/javascript"></script>
 </body>
 
 </html>

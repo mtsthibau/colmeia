@@ -24,8 +24,8 @@ class ProdutoCtrl {
         for (var i = 0; i < data.length; i++) {
             html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td><b>" + data[i].nome_modelo + "</b></td><td>" +
                 data[i].tamanho_numeracao + "</td><td>" + data[i].quantidade_produto + "</td><td>" + data[i].valor_compra + "</td><td>" + data[i].valor_venda + "</td>" +
-                "<td><button class='btn btn-outline-info my-2 my-sm-0' id='" + data[i].id + "'>Editar</button></td>" +
-                "<td><button class='btn btn-outline-danger float-right mb-3' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
+                "<td><button class='btn btn-outline-info mb-2' data-toggle='modal' data-target='#exampleModal' id='" + data[i].id + "'>Editar</button></td>" +
+                "<td><button class='btn btn-outline-danger mb-2' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
         }
         $("#tbody").html(html)
 
@@ -59,15 +59,28 @@ class ProdutoCtrl {
             $("#error").addClass("d-none");
 
             var apis = new Apis()
-            apis.postProdutoData(obj, function(data) {
-                apis.produtos = data
-                var produto = new ProdutoCtrl()
-                produto.renderData(apis)
 
-                $("#exampleModal").modal('hide')
-                main.setSuccess("Cadastro realizado com sucesso!")
 
-            })
+            if ($("#submit").attr("meta") == "") {
+                apis.postProdutoData(obj, function(data) {
+                    apis.produtos = data
+                    var produto = new ProdutoCtrl()
+                    produto.renderData(apis)
+
+                    $("#exampleModal").modal('hide')
+                    main.setSuccess("Cadastro realizado com sucesso!")
+
+                })
+            } else {
+                apis.updateProdutoData($("#submit").attr("meta-id"), obj, function(data) {
+                    apis.produtos = data
+                    var produto = new ProdutoCtrl()
+                    produto.renderData(apis)
+
+                    $("#exampleModal").modal('hide')
+                    main.setSuccess("Atualização realizada com sucesso!")
+                })
+            }
 
             event.stopPropagation()
         })
@@ -76,6 +89,12 @@ class ProdutoCtrl {
             var id = $(this).attr("id");
             $("#msgAlert").append("Tem certeza que deseja excluir o registro <strong class='ml-1'> CODIGO: " + id + " ?</strong>")
             $("#submitAlert").attr("meta", id)
+        })
+
+        $(".btn-outline-info").click(function() {
+            var id = $(this).attr("id");
+            var api = new Apis()
+            api.getProdutoData(id);
         })
 
         $("#submitAlert").click(function() {
@@ -90,6 +109,23 @@ class ProdutoCtrl {
             $("#msgAlert").html("")
             $("#submitAlert").attr("meta", "")
         })
+
+        $('#exampleModal').on('hidden.bs.modal', function(e) {
+            $("#submit").attr("meta", "")
+            $("#submit").attr("meta-id", "")
+        })
+    }
+
+    loadProdutoDataModal(data) {
+        $("#fabrica").val(data.produto.nome_fabrica)
+        $("#modelo").val(data.produto.nome_modelo)
+        $("#numeracao").val(data.produto.tamanho_numeracao)
+        $("#quantidade").val(data.produto.quantidade_produto)
+        $("#valorCompra").val(data.produto.valor_compra)
+        $("#valorVenda").val(data.produto.valor_venda)
+
+        $("#submit").attr("meta", "update")
+        $("#submit").attr("meta-id", data.produto.id)
     }
 
     getProdutos() {
