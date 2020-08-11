@@ -22,6 +22,7 @@ Route::get('produtos', 'ControllerProduto@indexJson');
 Route::get('vendas', 'ControllerVenda@indexJson');
 Route::post('novoProduto', 'ControllerProduto@create');
 Route::post('novaVenda', 'ControllerVenda@update');
+Route::post('deletaProduto/{id}', 'ControllerProduto@delete');
 
 
 

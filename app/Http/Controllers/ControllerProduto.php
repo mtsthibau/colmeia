@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Produto;
 
 use Illuminate\Http\Request;
+use PhpParser\Builder\Param;
 
 class ControllerProduto
 {
@@ -52,4 +53,13 @@ class ControllerProduto
         $visitante->save();
         return $this->indexJson();
     }
+
+    public function delete(Request $request, $id)
+    {
+        $produtoToDelete = Produto::find($id);
+        $produtoToDelete->delete();
+        return $this->indexJson();
+    }
+
+
 }

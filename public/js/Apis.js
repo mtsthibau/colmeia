@@ -20,6 +20,19 @@ class Apis {
         })
     }
 
+    deleteProdutoData(id) {
+        var apis = new Apis()
+        var main = new Main()
+
+        this.deleteProduto(id, function(data) {
+            apis.produtos = data
+            var produto = new ProdutoCtrl()
+            produto.renderData(apis)
+            $("#modalAlert").modal('hide')
+            main.setSuccess("Exclusão realizada com sucesso!")
+        })
+    }
+
     loadVendasData(callBack) {
         var url = "http://127.0.0.1:8000/api/vendas"
 
@@ -84,5 +97,36 @@ class Apis {
                 return null
             }
         });
+    }
+
+    deleteProduto(id, callBack) {
+        var url = "http://127.0.0.1:8000/api/deletaProduto/" + id
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: null,
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    var main = new Main()
+                    main.setError(data.error)
+                    return
+                }
+                return callBack(data);
+            },
+            error: function(data) {
+                var main = new Main()
+                main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
+                return null
+            }
+        });
+
     }
 }

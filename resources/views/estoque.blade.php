@@ -81,7 +81,7 @@
                     </div>
                     <div class="row">
                         <div class="col col-12">
-                            <label class="input-group">Fabrica</label>
+                            <label class="input-group">Fábrica</label>
                             <div class="input-group mb-3">
                                 <input type="text" id="fabrica" class="form-control" placeholder="Digite o nome da fabrica" required>
                             </div>
@@ -114,19 +114,30 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="height: 200px;">
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <img src="..." class="rounded mr-2" alt="...">
-                    <strong class="mr-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+    <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="modalAlertLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAlertLabel">CONFIRMAÇÃO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-12">
+                            <label class="input-group" id="msgAlert"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="submitAlert">Confirmar</button>
+                    </div>
                 </div>
             </div>
         </div>

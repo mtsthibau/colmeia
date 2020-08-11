@@ -25,7 +25,7 @@ class ProdutoCtrl {
             html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td><b>" + data[i].nome_modelo + "</b></td><td>" +
                 data[i].tamanho_numeracao + "</td><td>" + data[i].quantidade_produto + "</td><td>" + data[i].valor_compra + "</td><td>" + data[i].valor_venda + "</td>" +
                 "<td><button class='btn btn-outline-info my-2 my-sm-0' id='" + data[i].id + "'>Editar</button></td>" +
-                "<td><button class='btn btn-outline-danger my-2 my-sm-0' id='" + data[i].id + "'>Excluir</button></td></tr>"
+                "<td><button class='btn btn-outline-danger float-right mb-3' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
         }
         $("#tbody").html(html)
 
@@ -73,26 +73,22 @@ class ProdutoCtrl {
         })
 
         $(".btn-outline-danger").click(function() {
-            $(this).attr("id")
-            $(".toast").toast('show')
+            var id = $(this).attr("id");
+            $("#msgAlert").append("Tem certeza que deseja excluir o registro <strong class='ml-1'> CODIGO: " + id + " ?</strong>")
+            $("#submitAlert").attr("meta", id)
         })
 
-        $('#toast').on('hidden.bs.toast', function() {
-            var apis = new Apis()
-            var obj = new Object()
+        $("#submitAlert").click(function() {
             var main = new Main()
+            var api = new Apis()
 
-            obj.id = $("#id").val()
+            var id = $(this).attr("meta")
+            api.deleteProdutoData(id)
+        })
 
-            apis.deleteProdutoData(obj, function(data) {
-                apis.produtos = data
-                var produto = new ProdutoCtrl()
-                produto.renderData(apis)
-
-                $("#exampleModal").modal('hide')
-                main.setSuccess("Exclusão realizada com sucesso!")
-
-            })
+        $('#modalAlert').on('hidden.bs.modal', function(e) {
+            $("#msgAlert").html("")
+            $("#submitAlert").attr("meta", "")
         })
     }
 
