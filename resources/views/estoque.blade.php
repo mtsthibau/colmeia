@@ -38,14 +38,21 @@
     </nav>
     <panel>
         <panel-header>
-            <h3 class="ml-4 mt-4">Estoque</h6>
+            <h3 class="ml-4 mt-4">Estoque</h3>
+            <h5 class="ml-4 mt-4">
+                Valor total investido - R$<span id="valorTotalInvestido"></span>
+                <span class="ml-1 text-danger" style="font-size: 13px"> * Valores Dinâmicos</span>
+            </h5>
         </panel-header>
     </panel>
 
     <content>
         <div class="ml-4 mr-4">
-            <div class="alert alert-success d-none ml-3" role="alert" id="success"></div>
+            <div class="alert alert-success d-none" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">Novo Produto</button>
+            <div class="input-group mb-3">
+                <input type="text" id="search" class="form-control" placeholder="Busque por fábrica ou modelo ..." min="0">
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -56,6 +63,7 @@
                         <th scope="col">Quantidade</th>
                         <th scope="col">Valor Compra(R$)</th>
                         <th scope="col">Valor Venda(R$)</th>
+                        <th scope="col">Total Investido(R$)</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Excluir</th>
                         <!-- <th scope="col">Lucro(R$)</th> -->
@@ -77,7 +85,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">
@@ -127,7 +135,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">

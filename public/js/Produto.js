@@ -21,13 +21,18 @@ class ProdutoCtrl {
 
     renderTable(data) {
         var html
+        var valorTotalInvestido = 0
         for (var i = 0; i < data.length; i++) {
-            html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td><b>" + data[i].nome_modelo + "</b></td><td>" +
-                data[i].tamanho_numeracao + "</td><td>" + data[i].quantidade_produto + "</td><td>" + data[i].valor_compra + "</td><td>" + data[i].valor_venda + "</td>" +
+            var valorTotalProdutoItem = parseFloat(data[i].quantidade_produto * data[i].valor_venda).toFixed(2)
+            valorTotalInvestido = parseFloat(valorTotalInvestido) + parseFloat(valorTotalProdutoItem)
+            html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td>" + data[i].nome_modelo + "</td><td>" +
+                data[i].tamanho_numeracao + "</td><td>" + data[i].quantidade_produto + "</td><td>R$" + data[i].valor_compra + "</td><td>R$" + data[i].valor_venda +
+                "</td><td>R$" + valorTotalProdutoItem + "</td>" +
                 "<td><button class='btn btn-outline-info mb-2' data-toggle='modal' data-target='#exampleModal' id='" + data[i].id + "'>Editar</button></td>" +
                 "<td><button class='btn btn-outline-danger mb-2' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
         }
         $("#tbody").html(html)
+        $("#valorTotalInvestido").html(valorTotalInvestido.toFixed(2))
 
         this.registerEvents()
     }
@@ -113,6 +118,21 @@ class ProdutoCtrl {
         $('#exampleModal').on('hidden.bs.modal', function(e) {
             $("#submit").attr("meta", "")
             $("#submit").attr("meta-id", "")
+        })
+
+        $("#search").keyup(function(e) {
+
+            var api = new Apis()
+
+            if ($("#search").val() === "") {
+                api.loadDataVenda()
+            }
+
+            if ($("#search").val().length > 2) {
+                api.loadDataProdutosFiltered($(this).val())
+                $("#search").attr("disabled", true)
+            }
+            e.stopImmediatePropagation()
         })
     }
 

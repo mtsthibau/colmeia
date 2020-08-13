@@ -24,10 +24,12 @@ Route::post('novaVenda', 'ControllerVenda@update');
 Route::post('deletaProduto/{id}', 'ControllerProduto@delete');
 Route::get('produto/{id}', 'ControllerProduto@get');
 Route::post('editaProduto/{id}', 'ControllerProduto@update');
+Route::get('produtosFiltered/{filter}', 'ControllerProduto@search');
 
 
 Route::get('vendas', 'ControllerVenda@indexJson');
+Route::get('vendasFiltered/{filter}', 'ControllerVenda@search');
 Route::post('novaVenda', 'ControllerVenda@create');
-
+Route::post('deletaVenda/{id}', 'ControllerVenda@delete');
 
 

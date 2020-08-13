@@ -11,10 +11,23 @@ class ControllerProduto
 {
     public function indexJson()
     {
-        $produto = Produto::orderBy('nome_fabrica', 'DESC')->orderBy('nome_modelo', 'DESC')->get();
+        $produto = Produto::orderBy('nome_fabrica', 'DESC')->orderBy('nome_modelo', 'DESC')->paginate(100);
         return json_encode($produto);
     }
 
+    public function search($filter)
+    {
+
+        $produto = Produto::where("nome_fabrica", "like", "%" . $filter ."%")->
+        orderBy('id', 'DESC')->paginate(100);
+
+        if($produto->isEmpty()){
+            $produto = Produto::where("nome_modelo", "like", "%" . $filter ."%")->
+            orderBy('id', 'DESC')->paginate(100);
+        }
+
+        return json_encode($produto);
+    }
 
     public function create(Request $request)
     {

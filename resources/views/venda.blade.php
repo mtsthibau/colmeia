@@ -13,7 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('../css/fontawesome-free') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('../css/fontawesome-free') }}" rel="stylesheet"> -->
 
 </head>
 
@@ -43,23 +43,33 @@
     </nav>
     <panel>
         <panel-header>
-            <h3 class="ml-4 mt-4">Vendas</h6>
+            <h3 class="ml-4 mt-4">Vendas </h3>
+            <h5 class="ml-4 mt-4">
+                Valor total vendas - R$<span id="valorTotalTodasVendas"></span>
+                <span class="ml-1 text-danger" style="font-size: 13px"> * Valores Dinâmicos</span>
+            </h5>
         </panel-header>
     </panel>
 
     <content>
         <div class="ml-4 mr-4">
-            <div class="alert alert-success d-none ml-3" role="alert" id="success"></div>
+            <div class="alert alert-success d-none" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">Nova Venda</button>
+            <div class="input-group mb-3">
+                <input type="text" id="search" class="form-control" placeholder="Busque por fábrica, modelo ou cliente..." min="0">
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Venda N°</th>
-                        <th scope="col">Item</th>
+                        <th scope="col">Cod. Venda</th>
+                        <th scope="col">Fábrica</th>
+                        <th scope="col">Produto</th>
+                        <th scope="col">N°</th>
                         <th scope="col">Cliente</th>
-                        <th scope="col">Numeração</th>
-                        <th scope="col">Total</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Total Venda(R$)</th>
                         <th scope="col">Forma de Pagamento</th>
+                        <th scope="col">Excluir</th>
                     </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
@@ -78,7 +88,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">
@@ -113,8 +123,10 @@
                             <div class="input-group mb-3">
                                 <input type="number" id="nomeCliente" class="form-control" placeholder="Digite o nome do cliente" min="0">
                             </div> -->
-
-                            <h3>TOTAL - R$ <span id="valorTotal"></span> </h3>
+                            <div class="alert alert-info">
+                                <strong> Total - R$ <span id="valorTotal"></span></strong>
+                            </div>
+                            <span id="valorProduto" class="d-none"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -137,7 +149,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">

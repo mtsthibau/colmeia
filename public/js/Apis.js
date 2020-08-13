@@ -20,6 +20,26 @@ class Apis {
         })
     }
 
+    loadDataVendaFiltered(filter) {
+        var apis = new Apis()
+
+        this.loadVendasDataFiltered(filter, function(data) {
+            apis.vendas = data
+            var venda = new VendaCtrl()
+            venda.renderData(apis)
+        })
+    }
+
+    loadDataProdutosFiltered(filter) {
+        var apis = new Apis()
+
+        this.loadProdutosDataFiltered(filter, function(data) {
+            apis.produtos = data
+            var produto = new ProdutoCtrl()
+            produto.renderData(apis)
+        })
+    }
+
     getProdutoData(id) {
         var apis = new Apis()
 
@@ -43,6 +63,19 @@ class Apis {
         })
     }
 
+    deleteVendaData(id) {
+        var apis = new Apis()
+        var main = new Main()
+
+        this.deleteVenda(id, function(data) {
+            apis.vendas = data
+            var venda = new VendaCtrl()
+            venda.renderData(apis)
+            $("#modalAlert").modal('hide')
+            main.setSuccess("Exclusão realizada com sucesso!")
+        })
+    }
+
     loadVendasData(callBack) {
         var url = "http://127.0.0.1:8000/api/vendas"
 
@@ -51,7 +84,7 @@ class Apis {
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 alert("Erro durante download dos dados. Por favor tente novamente")
@@ -60,6 +93,41 @@ class Apis {
         });
     }
 
+    loadVendasDataFiltered(filter, callBack) {
+        var url = "http://127.0.0.1:8000/api/vendasFiltered/" + filter
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $("#search").attr("disabled", false)
+                return callBack(data.data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
+
+    loadProdutosDataFiltered(filter, callBack) {
+        var url = "http://127.0.0.1:8000/api/produtosFiltered/" + filter
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $("#search").attr("disabled", false)
+                return callBack(data.data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
 
     loadProdutosData(callBack) {
         var url = "http://127.0.0.1:8000/api/produtos"
@@ -69,7 +137,7 @@ class Apis {
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 alert("Erro durante download dos dados. Por favor tente novamente")
@@ -186,37 +254,6 @@ class Apis {
         });
     }
 
-    // VENDAS
-
-    postVendaData(data, callBack) {
-        var url = "http://127.0.0.1:8000/api/novaVenda"
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            }
-        });
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: data,
-            dataType: 'json',
-            success: function(data) {
-                if (data.error) {
-                    var main = new Main()
-                    main.setError(data.error)
-                    return
-                }
-                return callBack(data);
-            },
-            error: function(data) {
-                var main = new Main()
-                main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
-                return null
-            }
-        });
-    }
 
     updateProdutoData(id, data, callBack) {
         var url = "http://127.0.0.1:8000/api/editaProduto/" + id
@@ -279,6 +316,9 @@ class Apis {
 
     }
 
+
+    // VENDAS
+
     getProduto(id, callBack) {
         var url = "http://127.0.0.1:8000/api/produto/" + id
 
@@ -295,4 +335,67 @@ class Apis {
             }
         });
     }
+
+
+    postVendaData(data, callBack) {
+        var url = "http://127.0.0.1:8000/api/novaVenda"
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    var main = new Main()
+                    main.setError(data.error)
+                    return
+                }
+                return callBack(data);
+            },
+            error: function(data) {
+                var main = new Main()
+                main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
+                return null
+            }
+        });
+    }
+
+    deleteVenda(id, callBack) {
+        var url = "http://127.0.0.1:8000/api/deletaVenda/" + id
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: null,
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    var main = new Main()
+                    main.setError(data.error)
+                    return
+                }
+                return callBack(data);
+            },
+            error: function(data) {
+                var main = new Main()
+                main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
+                return null
+            }
+        });
+
+    }
+
 }

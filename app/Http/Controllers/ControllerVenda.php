@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Venda;
+use App\Produto;
 
 use Illuminate\Http\Request;
 
@@ -10,7 +11,33 @@ class ControllerVenda
 {
     public function indexJson()
     {
-        $venda = Venda::orderBy('nome_cliente', 'DESC')->get();
+        $venda = Venda::join("produto", "produto.id", "venda.id_produto")->
+        select("venda.*", "produto.nome_fabrica", "produto.nome_modelo", "produto.tamanho_numeracao")->
+        orderBy('venda.id', 'DESC')->paginate(100);
+        return json_encode($venda);
+    }
+
+    public function search($filter)
+    {
+
+        $venda = Venda::join("produto", "produto.id", "venda.id_produto")->
+        select("venda.*", "produto.nome_fabrica", "produto.nome_modelo", "produto.tamanho_numeracao")->
+        where("produto.nome_fabrica", "like", "%" . $filter ."%")->
+        orderBy('venda.id', 'DESC')->paginate(100);
+
+        if($venda->isEmpty()){
+            $venda = Venda::join("produto", "produto.id", "venda.id_produto")->
+            select("venda.*", "produto.nome_fabrica", "produto.nome_modelo", "produto.tamanho_numeracao")->
+            where("produto.nome_modelo", "like", "%" . $filter . "%")->
+            orderBy('venda.id', 'DESC')->paginate(100);
+        }
+
+        if($venda->isEmpty()){
+            $venda = Venda::join("produto", "produto.id", "venda.id_produto")->
+            select("venda.*", "produto.nome_fabrica", "produto.nome_modelo", "produto.tamanho_numeracao")->
+            where("venda.nome_cliente", "like", "%" . $filter . "%")->
+            orderBy('venda.id', 'DESC')->paginate(100);
+        }
         return json_encode($venda);
     }
 
@@ -19,61 +46,26 @@ class ControllerVenda
         $venda = new Venda;
         $venda->nome_cliente = $request->input('nomeCliente');
         $venda->id_produto = $request->input('produto');
-        $venda->total_venda = $request->input('totalVenda');
+        $venda->quantidade_produto = $request->input('quantidade');
+        $venda->total_venda = $request->input('valorTotal');
         $venda->forma_pagamento = $request->input('formaPagamento');
         $venda->save();
+
+        $this->updateQuantidadeProduto($venda->id_produto, $venda->quantidade_produto );
 
         return $this->indexJson();
     }
 
-    public function update(Request $request)
+    public function updateQuantidadeProduto($id, $quantidade){
+        $produto = Produto::find($id);
+        $produto->quantidade_produto = $produto->quantidade_produto - $quantidade;
+        $produto->save();
+    }
+
+    public function delete(Request $request, $id)
     {
-        $rTimeCasa =  $request->input('timeCasa');
-        $rGolsTimeCasa =  $request->input('golsTimeCasa');
-        $rVisitante = $request->input('visitante');
-        $rGolsVisitante =  $request->input('golsVisitante');
-
-        if (
-            $rTimeCasa == null || $rVisitante == null || $rGolsTimeCasa  == null
-            || $rGolsVisitante == null || $rGolsTimeCasa < 0 || $rGolsVisitante < 0
-            || $rTimeCasa == 0 || $rVisitante == 0
-        ) {
-            return response()->json([
-                'error' => 'Dados inválidos, tente novamente.'
-            ]);
-        }
-
-        $timeCasa = Venda::find($rTimeCasa);
-        $visitante = Venda::find($rVisitante);
-
-        if (isset($timeCasa) && isset($visitante)) {
-            $timeCasa->jogos_disputados += 1;
-            $visitante->jogos_disputados += 1;
-            $timeCasa->gols_pro += $rGolsTimeCasa;
-            $timeCasa->gols_contra += $rGolsVisitante;
-            $visitante->gols_pro += $rGolsVisitante;
-            $visitante->gols_contra += $rGolsTimeCasa;
-            $timeCasa->saldo_gols += ($rGolsTimeCasa - $rGolsVisitante);
-            $visitante->saldo_gols += ($rGolsVisitante - $rGolsTimeCasa);
-
-            if ($rGolsTimeCasa > $rGolsVisitante) {
-                $timeCasa->pontos += 3;
-                $timeCasa->vitorias += 1;
-                $visitante->derrotas += 1;
-            } else if ($rGolsTimeCasa == $rGolsVisitante) {
-                $timeCasa->pontos += 1;
-                $timeCasa->empates += 1;
-                $visitante->pontos += 1;
-                $visitante->empates += 1;
-            } else {
-                $visitante->pontos += 3;
-                $visitante->vitorias += 1;
-                $timeCasa->derrotas += 1;
-            }
-
-            $timeCasa->save();
-            $visitante->save();
-            return $this->indexJson();
-        }
+        $vendaToDelete = Venda::find($id);
+        $vendaToDelete->delete();
+        return $this->indexJson();
     }
 }
