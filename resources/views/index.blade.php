@@ -24,20 +24,47 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
-    <panel>
-        <panel-header>
-            <h3 class="ml-4 mt-4">Login</h6>
-        </panel-header>
-    </panel>
+
+    <div class="col col-6" style="margin-top: 10%;">
+        <div class="col col-4 offset-3">
+            <div class="card">
+                <div class="card-header">
+                    Login
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col col-12">
+                            <label class="input-group">Usuário</label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="user" class="form-control" placeholder="Usuário" required>
+                            </div>
+                            <label class="input-group">Senha</label>
+                            <div class="input-group mb-3">
+                                <input type="password" id="password" class="form-control" placeholder="Senha" required>
+                            </div>
+                            <button type="button" class="btn btn-success" id="submit">Entrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-6">
+        <!-- <img src="/public/image/logo.jpg"> -->
+    </div>
+
+    </div>
+
 
     <content>
 
     </content>
 
-        @section('scripts')
-        <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
+    @section('scripts')
+    <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
 </body>
 
 </html>
