@@ -17,50 +17,25 @@
 
 </head>
 
-<body onload="onLoadPageIndex()">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Colméia</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-
-    <div class="col col-6" style="margin-top: 10%;">
-        <div class="col col-4 offset-3">
-            <div class="card">
-                <div class="card-header">
-                    Login
-                </div>
-
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col col-12">
-                            <label class="input-group">Usuário</label>
-                            <div class="input-group mb-3">
-                                <input type="text" id="user" class="form-control" placeholder="Usuário" required>
-                            </div>
-                            <label class="input-group">Senha</label>
-                            <div class="input-group mb-3">
-                                <input type="password" id="password" class="form-control" placeholder="Senha" required>
-                            </div>
-                            <button type="button" class="btn btn-success" id="submit">Entrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="text-center" onload="onLoadPageLogin()">
+    <div class="col col-2 offset-5
+      " style="margin-top: 100px;">
+        <form class="form-signin">
+            <img src="{{ asset('/../image/logo.jpg') }}" style="width: 100px;" />
+            <h1 class="h3 mb-3 mt-4 font-weight-normal">Faça Login</h1>
+            <label class="input-group" id="msgAlert"></label>
+            <label for="usuario" class="sr-only">Usuário</label>
+            <input type="email" id="usuario" class="form-control" placeholder="Usuário" required autofocus>
+            <label for="senha" class="sr-only">Senha</label>
+            <input type="password" id="senha" class="form-control" placeholder="Senha" required>
+            <button class="btn btn-lg btn-success btn-block mt-3" type="submit">LOGIN</button>
+            <p class="mt-5 mb-3 text-muted">
+                <a class="navbar-brand" href="http://mtpinovacao.com/">
+                    MTPINOVAÇÃO &copy; 2020
+                </a>
+            </p>
+        </form>
     </div>
-    <div class="col col-6">
-        <!-- <img src="/public/image/logo.jpg"> -->
-    </div>
-
-    </div>
-
-
-    <content>
-
-    </content>
-
     @section('scripts')
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>

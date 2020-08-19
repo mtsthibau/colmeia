@@ -32,4 +32,7 @@ Route::get('vendasFiltered/{filter}', 'ControllerVenda@search');
 Route::post('novaVenda', 'ControllerVenda@create');
 Route::post('deletaVenda/{id}', 'ControllerVenda@delete');
 
+Route::post('login', 'ControllerUsuario@delete');
+
+
 

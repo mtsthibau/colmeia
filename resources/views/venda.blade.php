@@ -164,7 +164,11 @@
             </div>
         </div>
     </div>
-
+    <!-- <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+    </footer> -->
     @section('scripts')
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>

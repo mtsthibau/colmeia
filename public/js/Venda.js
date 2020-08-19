@@ -1,12 +1,25 @@
 function onLoadPageVenda() {
     venda = new VendaCtrl()
-    venda.load()
+    var isAutenticated = venda.vefifyUser()
+    if (isAutenticated)
+        venda.load()
+    else
+        window.location.href = "http://127.0.0.1:8000/";
+
 }
 
 class VendaCtrl {
 
     constructor(vendas) {
         this.vendas = vendas
+    }
+
+
+    vefifyUser() {
+        var userStored = localStorage['user'];
+        if (userStored)
+            return true;
+        else return false
     }
 
     load() {

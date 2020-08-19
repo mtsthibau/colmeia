@@ -18,8 +18,8 @@ class CreateUser extends Migration
             $table->id();
             $table->string('user', 60);
             $table->string('password', 255);
-            $table->string('remember_token', 100);
-            $table->timestamps();
+            // $table->string('remember_token', 100);
+            // $table->timestamps();
         });
     }
 

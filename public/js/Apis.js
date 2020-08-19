@@ -398,4 +398,35 @@ class Apis {
 
     }
 
+
+    loginUsuario(obj, callBack) {
+        var url = "http://127.0.0.1:8000/api/login/"
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            data: obj,
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    var main = new Main()
+                    main.setError(data.error)
+                    return
+                }
+                return callBack(data);
+            },
+            error: function(data) {
+                var main = new Main()
+                main.setError("Erro durante a solicitação, por favor tente novamente ou contate o administrador.")
+                return null
+            }
+        });
+    }
+
 }

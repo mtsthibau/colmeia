@@ -1,12 +1,23 @@
 function onLoadEstoquePage() {
     produto = new ProdutoCtrl()
-    produto.load()
+    var isAutenticated = produto.vefifyUser()
+    if (isAutenticated)
+        produto.load()
+    else
+        window.location.href = "http://127.0.0.1:8000/";
 }
 
 class ProdutoCtrl {
 
     constructor(produtos) {
         this.produtos = produtos
+    }
+
+    vefifyUser() {
+        var userStored = localStorage['user'];
+        if (userStored)
+            return true;
+        else return false
     }
 
     load() {
