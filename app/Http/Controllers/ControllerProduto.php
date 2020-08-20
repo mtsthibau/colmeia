@@ -21,6 +21,7 @@ class ControllerProduto
         $produto = Produto::where("nome_fabrica", "like", "%" . $filter ."%")->
         orderBy('id', 'DESC')->paginate(100);
 
+
         if($produto->isEmpty()){
             $produto = Produto::where("nome_modelo", "like", "%" . $filter ."%")->
             orderBy('id', 'DESC')->paginate(100);

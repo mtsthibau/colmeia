@@ -61,7 +61,7 @@ class ControllerUsuario
         return $this->indexJson();
     }
 
-    public function get(Request $request, $id)
+    public function login(Request $request)
     {
         $usuario = User::where("user", "=", $request->user)->
         where("password", "=", $request->password)->get();

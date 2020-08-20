@@ -11,10 +11,8 @@ class UsuarioCtrl {
 
     load() {
         var apis = new Apis()
-            //registerEvents
+        this.registerEvents()
     }
-
-
 
     registerEvents() {
 
@@ -30,9 +28,9 @@ class UsuarioCtrl {
 
 
             apis.loginUsuario(obj, function(data) {
-                if (data.user) {
-                    localStorage['user'] = JSON.parse(data);
-                    window.location.href = "http://127.0.0.1:8000/venda";
+                if (data[0].user) {
+                    localStorage['user'] = data[0].user
+                    window.location.href = "http://127.0.0.1:8000/venda"
                 } else {
                     var main = new Main()
                     main.setError("Usuário ou senha incorretos")
@@ -43,6 +41,11 @@ class UsuarioCtrl {
             e.stopImmediatePropagation()
         })
 
+    }
+
+    logOff() {
+        localStorage['user'] = ""
+        window.location.href = "http://127.0.0.1:8000/"
     }
 
     setError(msg) {

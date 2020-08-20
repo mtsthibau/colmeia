@@ -2,43 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Produto;
+use App\Despesa;
 
 use Illuminate\Http\Request;
 use PhpParser\Builder\Param;
 
-class ControllerProduto
+class ControllerDespesa
 {
     public function indexJson()
     {
-        $produto = Produto::orderBy('nome_fabrica', 'DESC')->orderBy('nome_modelo', 'DESC')->paginate(100);
-        return json_encode($produto);
+        $despesa = Despesa::orderBy('descricao_despesa', 'DESC')->orderBy('created_at', 'DESC')->paginate(100);
+        return json_encode($despesa);
     }
 
     public function search($filter)
     {
 
-        $produto = Produto::where("nome_fabrica", "like", "%" . $filter ."%")->
+        $despesa = Despesa::where("descricao_despesa", "like", "%" . $filter ."%")->
         orderBy('id', 'DESC')->paginate(100);
 
-        if($produto->isEmpty()){
-            $produto = Produto::where("nome_modelo", "like", "%" . $filter ."%")->
+        if($despesa->isEmpty()){
+            $despesa = Despesa::where("local_despesa", "like", "%" . $filter ."%")->
             orderBy('id', 'DESC')->paginate(100);
         }
 
-        return json_encode($produto);
+        return json_encode($despesa);
     }
 
     public function create(Request $request)
     {
-        $produto = new Produto;
-        $produto->nome_fabrica = $request->input('fabrica');
-        $produto->nome_modelo = $request->input('modelo');
-        $produto->tamanho_numeracao = $request->input('numeracao');
-        $produto->quantidade_produto = $request->input('quantidade');
-        $produto->valor_compra = $request->input('valorVenda');
-        $produto->valor_venda = $request->input('valorCompra');
-        $produto->save();
+        $despesa = new Despesa;
+        $despesa->descricao_despesa = $request->input('descricao_despesa');
+        $despesa->local_despesa = $request->input('local_despesa');
+        $despesa->valor_despesa = $request->input('valor_despesa');
+        $despesa->forma_pagamento = $request->input('forma_pagamento');
+        $despesa->save();
         return $this->indexJson();
     }
 
@@ -54,31 +52,28 @@ class ControllerProduto
         //     ]);
         // }
 
-        $produto = Produto::find($id);
+        $despesa = Despesa::find($id);
 
-        $produto->nome_fabrica = $request->input('fabrica');
-        $produto->nome_modelo = $request->input('modelo');
-        $produto->tamanho_numeracao = $request->input('numeracao');
-        $produto->quantidade_produto = $request->input('quantidade');
-        $produto->valor_compra = $request->input('valorVenda');
-        $produto->valor_venda = $request->input('valorCompra');
-        $produto->save();
+        $despesa->descricao_despesa = $request->input('descricao_despesa');
+        $despesa->local_despesa = $request->input('local_despesa');
+        $despesa->valor_despesa = $request->input('valor_despesa');
+        $despesa->forma_pagamento = $request->input('forma_pagamento');
+        $despesa->save();
 
         return $this->indexJson();
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
-        $produtoToDelete = Produto::find($id);
-        $produtoToDelete->delete();
+        $despesaToDelete = Despesa::find($id);
+        $despesaToDelete->delete();
         return $this->indexJson();
     }
 
-    public function get(Request $request, $id)
+    public function get($id)
     {
-        $produto = Produto::where("quantidade_produto", ">", "0")->
-        where("id", "=", $id)->get();
-        return json_encode($produto);
+        $despesa = Despesa::where("id", "=", $id)->get();
+        return json_encode($despesa);
     }
 
 }

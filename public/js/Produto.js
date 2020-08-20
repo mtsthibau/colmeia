@@ -15,9 +15,10 @@ class ProdutoCtrl {
 
     vefifyUser() {
         var userStored = localStorage['user'];
-        if (userStored)
+        if (userStored) {
+            $("#nomeUsuario").html(userStored)
             return true;
-        else return false
+        } else return false
     }
 
     load() {
@@ -81,7 +82,7 @@ class ProdutoCtrl {
                 apis.postProdutoData(obj, function(data) {
                     apis.produtos = data
                     var produto = new ProdutoCtrl()
-                    produto.renderData(apis)
+                    produto.renderTable(apis)
 
                     $("#exampleModal").modal('hide')
                     main.setSuccess("Cadastro realizado com sucesso!")
@@ -148,15 +149,15 @@ class ProdutoCtrl {
     }
 
     loadProdutoDataModal(data) {
-        $("#fabrica").val(data.produto.nome_fabrica)
-        $("#modelo").val(data.produto.nome_modelo)
-        $("#numeracao").val(data.produto.tamanho_numeracao)
-        $("#quantidade").val(data.produto.quantidade_produto)
-        $("#valorCompra").val(data.produto.valor_compra)
-        $("#valorVenda").val(data.produto.valor_venda)
+        $("#fabrica").val(data.produto[0].nome_fabrica)
+        $("#modelo").val(data.produto[0].nome_modelo)
+        $("#numeracao").val(data.produto[0].tamanho_numeracao)
+        $("#quantidade").val(data.produto[0].quantidade_produto)
+        $("#valorCompra").val(data.produto[0].valor_compra)
+        $("#valorVenda").val(data.produto[0].valor_venda)
 
         $("#submit").attr("meta", "update")
-        $("#submit").attr("meta-id", data.produto.id)
+        $("#submit").attr("meta-id", data.produto[0].id)
     }
 
     getProdutos() {

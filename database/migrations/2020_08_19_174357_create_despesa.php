@@ -1,11 +1,10 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUser extends Migration
+class CreateDespesa extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,13 @@ class CreateUser extends Migration
      */
     public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('despesa', function (Blueprint $table) {
             $table->id();
-            $table->string('user', 60);
-            $table->string('password', 255);
-            // $table->string('remember_token', 100);
-            // $table->timestamps();
+            $table->string('descricao_despesa');
+            $table->string('local_despesa');
+            $table->decimal('valor_despesa', 5, 2);
+            $table->string('forma_pagamento');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateUser extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('despesa');
     }
 }

@@ -25,8 +25,8 @@ Route::get('/venda', function () {
     return view('venda');
 });
 
-Route::get('/gastos', function () {
-    return view('gastos');
+Route::get('/despesa', function () {
+    return view('despesa');
 });
 
 

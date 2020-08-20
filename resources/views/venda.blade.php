@@ -32,13 +32,13 @@
                     <a class="nav-link" href="estoque">Estoque</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="gastos">Gastos</a>
+                    <a class="nav-link" href="despesa">Despesas</a>
                 </li>
             </ul>
         </div>
         <div class="form-inline my-2 my-lg-0">
-            <span class="usuarioName mr-3" style="color: #FFF;"> Matheus Thibau Pauino </span>
-            <button class="btn btn-outline-success my-2 my-sm-0">Sair</button>
+            <span class="usuarioName mr-3" style="color: #FFF;" id="nomeUsuario"></span>
+            <button class="btn btn-outline-success my-2 my-sm-0" id="logOff">Sair</button>
         </div>
     </nav>
     <panel>
@@ -171,6 +171,7 @@
     </footer> -->
     @section('scripts')
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Usuario.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Produto.js') }}" type="text/javascript"></script>

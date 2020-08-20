@@ -17,9 +17,10 @@ class VendaCtrl {
 
     vefifyUser() {
         var userStored = localStorage['user'];
-        if (userStored)
-            return true;
-        else return false
+        if (userStored) {
+            $("#nomeUsuario").html(userStored)
+            return true
+        } else return false
     }
 
     load() {
@@ -172,7 +173,17 @@ class VendaCtrl {
             }
             e.stopImmediatePropagation()
         })
+
+        logOff
+
+        $("#logOff").click(function(e) {
+            var usuario = new UsuarioCtrl()
+            usuario.logOff()
+            e.stopImmediatePropagation()
+        })
+
     }
+
 
     setError(msg) {
         $("#error").html(msg)
