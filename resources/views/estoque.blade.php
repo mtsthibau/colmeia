@@ -22,8 +22,8 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse float-right" id="navbarNav">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="venda">Vendas <span class="sr-only">(current)</span></a>
                 </li>
@@ -34,10 +34,16 @@
                     <a class="nav-link" href="despesa">Despesas</a>
                 </li>
             </ul>
-        </div>
-        <div class="form-inline my-2 my-lg-0">
-            <span class="usuarioName mr-3" style="color: #FFF;" id="nomeUsuario"></span>
-            <button class="btn btn-outline-success my-2 my-sm-0" id="logOff">Sair</button>
+            <div class="form-inline my-2 my-lg-0">
+                <span class="usuarioName mr-3" style="color: #FFF;" id="nomeUsuario"></span>
+                <button class="btn btn-outline-success my-2 my-sm-0" id="logOff">
+                    Sair
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-bar-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z" />
+                        <path fill-rule="evenodd" d="M6 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H6.5A.5.5 0 0 1 6 8zm-2.5 6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 1 0v11a.5.5 0 0 1-.5.5z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
     <panel>
@@ -53,7 +59,13 @@
     <content>
         <div class="ml-4 mr-4">
             <div class="alert alert-success d-none" role="alert" id="success"></div>
-            <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">Novo Produto</button>
+            <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M3 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 7.586 1H3zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                    <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z" />
+                </svg>
+                Novo Produto
+            </button>
             <div class="input-group mb-3">
                 <input type="text" id="search" class="form-control" placeholder="Busque por fábrica ou modelo ..." min="0">
             </div>
@@ -68,6 +80,7 @@
                         <th scope="col">Valor Compra(R$)</th>
                         <th scope="col">Valor Venda(R$)</th>
                         <th scope="col">Total Investido(R$)</th>
+                        <th scope="col">Data</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Excluir</th>
                         <!-- <th scope="col">Lucro(R$)</th> -->
@@ -75,6 +88,7 @@
                 </thead>
                 <tbody id="tbody"></tbody>
             </table>
+            <button type="button" class="btn btn-primary mb-5" id="listAll" meta="">Listar todos registros</button>
         </div>
     </content>
 
@@ -82,14 +96,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confronto</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Novo Produto</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none ml-2" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">

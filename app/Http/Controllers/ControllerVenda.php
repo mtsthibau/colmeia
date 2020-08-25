@@ -17,6 +17,14 @@ class ControllerVenda
         return json_encode($venda);
     }
 
+    public function listAll()
+    {
+        $venda = Venda::join("produto", "produto.id", "venda.id_produto")->
+        select("venda.*", "produto.nome_fabrica", "produto.nome_modelo", "produto.tamanho_numeracao")->
+        orderBy('venda.id', 'DESC')->get();
+        return json_encode($venda);
+    }
+
     public function search($filter)
     {
 
@@ -51,20 +59,28 @@ class ControllerVenda
         $venda->forma_pagamento = $request->input('formaPagamento');
         $venda->save();
 
-        $this->updateQuantidadeProduto($venda->id_produto, $venda->quantidade_produto );
+        $this->updateQuantidadeProdutoVenda($venda->id_produto, $venda->quantidade_produto);
 
         return $this->indexJson();
     }
 
-    public function updateQuantidadeProduto($id, $quantidade){
+    public function updateQuantidadeProdutoVenda($id, $quantidade){
         $produto = Produto::find($id);
         $produto->quantidade_produto = $produto->quantidade_produto - $quantidade;
+        $produto->save();
+    }
+
+    public function updateQuantidadeProdutoExclusaoVenda($id, $quantidade){
+        $produto = Produto::find($id);
+        $produto->quantidade_produto = $produto->quantidade_produto + $quantidade;
         $produto->save();
     }
 
     public function delete(Request $request, $id)
     {
         $vendaToDelete = Venda::find($id);
+        $this->updateQuantidadeProdutoExclusaoVenda($vendaToDelete->id_produto, $vendaToDelete->quantidade_produto);
+
         $vendaToDelete->delete();
         return $this->indexJson();
     }

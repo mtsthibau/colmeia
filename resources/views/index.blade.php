@@ -22,6 +22,9 @@
         <div class="form-signin">
             <img src="{{ asset('/../image/logo.jpg') }}" style="width: 100px;" />
             <h1 class="h3 mb-3 mt-4 font-weight-normal">Faça Login</h1>
+            <div class="col-12">
+                <div class="alert alert-danger d-none ml-2" role="alert" id="error"></div>
+            </div>
             <label class="input-group" id="msgAlert"></label>
             <label for="usuario" class="sr-only">Usuário</label>
             <input type="text" id="usuario" class="form-control" placeholder="Usuário" required autofocus>

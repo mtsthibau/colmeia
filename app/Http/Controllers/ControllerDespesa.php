@@ -15,6 +15,12 @@ class ControllerDespesa
         return json_encode($despesa);
     }
 
+    public function listAll()
+    {
+        $despesa = Despesa::orderBy('descricao_despesa', 'DESC')->orderBy('created_at', 'DESC')->get();
+        return json_encode($despesa);
+    }
+
     public function search($filter)
     {
 

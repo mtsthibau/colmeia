@@ -10,10 +10,30 @@ class Apis {
         })
     }
 
+    loadDataAllProdutos() {
+        var apis = new Apis()
+
+        this.loadAllProdutosData(function(data) {
+            apis.produtos = data
+            var produto = new ProdutoCtrl()
+            produto.renderData(apis)
+        })
+    }
+
     loadDataVenda() {
         var apis = new Apis()
 
         this.loadVendasData(function(data) {
+            apis.vendas = data
+            var venda = new VendaCtrl()
+            venda.renderData(apis)
+        })
+    }
+
+    loadDataAllVendas() {
+        var apis = new Apis()
+
+        this.loadAllVendasData(function(data) {
             apis.vendas = data
             var venda = new VendaCtrl()
             venda.renderData(apis)
@@ -29,6 +49,18 @@ class Apis {
             despesa.renderData(apis)
         })
     }
+
+    loadDataAllDespesas() {
+        var apis = new Apis()
+
+        this.loadAllDespesasData(function(data) {
+            apis.despesas = data
+            var despesa = new DespesaCtrl()
+            despesa.renderData(apis)
+        })
+    }
+
+
 
     loadDataVendaFiltered(filter) {
         var apis = new Apis()
@@ -136,6 +168,24 @@ class Apis {
         });
     }
 
+
+    loadAllVendasData(callBack) {
+        var url = "http://127.0.0.1:8000/api/todasVendas"
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                return callBack(data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
+
     loadVendasDataFiltered(filter, callBack) {
         var url = "http://127.0.0.1:8000/api/vendasFiltered/" + filter
 
@@ -181,6 +231,23 @@ class Apis {
             dataType: 'json',
             success: function(data) {
                 return callBack(data.data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
+
+    loadAllProdutosData(callBack) {
+        var url = "http://127.0.0.1:8000/api/todosProdutos"
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                return callBack(data);
             },
             error: function(data) {
                 alert("Erro durante download dos dados. Por favor tente novamente")
@@ -392,7 +459,6 @@ class Apis {
         });
     }
 
-
     loadDespesasDataFiltered(filter, callBack) {
         var url = "http://127.0.0.1:8000/api/despesasFiltered/" + filter
 
@@ -413,6 +479,23 @@ class Apis {
 
     loadDespesasData(callBack) {
         var url = "http://127.0.0.1:8000/api/despesas"
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                return callBack(data.data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
+
+    loadAllDespesasData(callBack) {
+        var url = "http://127.0.0.1:8000/api/todasDespesas"
 
         $.ajax({
             url: url,

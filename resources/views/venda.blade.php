@@ -24,7 +24,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse float-right" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="venda"><i class="fas fa-user"></i> Vendas </a>
                 </li>
@@ -35,10 +35,16 @@
                     <a class="nav-link" href="despesa">Despesas</a>
                 </li>
             </ul>
-        </div>
-        <div class="form-inline my-2 my-lg-0">
-            <span class="usuarioName mr-3" style="color: #FFF;" id="nomeUsuario"></span>
-            <button class="btn btn-outline-success my-2 my-sm-0" id="logOff">Sair</button>
+            <div class="form-inline my-2 my-lg-0">
+                <span class="usuarioName mr-3" style="color: #FFF;" id="nomeUsuario"></span>
+                <button class="btn btn-outline-success my-2 my-sm-0" id="logOff">
+                    Sair
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-bar-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 8l-2.647-2.646a.5.5 0 0 1 0-.708z" />
+                        <path fill-rule="evenodd" d="M6 8a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 0 1H6.5A.5.5 0 0 1 6 8zm-2.5 6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 1 0v11a.5.5 0 0 1-.5.5z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
     <panel>
@@ -54,7 +60,14 @@
     <content>
         <div class="ml-4 mr-4">
             <div class="alert alert-success d-none" role="alert" id="success"></div>
-            <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">Nova Venda</button>
+            <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.354 5.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                </svg>
+                Nova Venda
+
+            </button>
             <div class="input-group mb-3">
                 <input type="text" id="search" class="form-control" placeholder="Busque por fábrica, modelo ou cliente..." min="0">
             </div>
@@ -69,11 +82,13 @@
                         <th scope="col">Quantidade</th>
                         <th scope="col">Total Venda(R$)</th>
                         <th scope="col">Forma de Pagamento</th>
+                        <th scope="col">Data</th>
                         <th scope="col">Excluir</th>
                     </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
             </table>
+            <button type="button" class="btn btn-primary mb-5" id="listAll" meta="">Listar todos registros</button>
         </div>
     </content>
 
@@ -88,7 +103,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none ml-2" role="alert" id="error"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">
@@ -113,7 +128,7 @@
                             <label class="input-group">Forma de Pagamento</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="formaPagamento" placeholder="Selecione uma forma de pagamento">
-                                    <option selected> </option>
+                                    <option selected></option>
                                     <option value="Boleto">Boleto</option>
                                     <option value="Dinheiro">Dinheiro</option>
                                     <option value="Cartão">Cartão</option>

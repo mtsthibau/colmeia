@@ -36,6 +36,10 @@ class VendaCtrl {
     renderTable(data) {
         var html
         var valorTotalTodasVendas = 0
+        var iconTrash = "<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" +
+            "<path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/>" +
+            "<path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg>"
+
         if (data.length == 0)
             $("#tbody").html("<tr><td>Nenhum registro encontrado para o filtro aplicado...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
 
@@ -43,8 +47,9 @@ class VendaCtrl {
             valorTotalTodasVendas = parseFloat(valorTotalTodasVendas) + parseFloat(data[i].total_venda)
             html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td>" + data[i].nome_modelo + "</td><td>" + data[i].tamanho_numeracao + "</td><td>" +
                 data[i].nome_cliente + "</td><td>" + data[i].quantidade_produto + "</td><td>" + "R$" + data[i].total_venda + "</td><td>" + data[i].forma_pagamento + "</td>" +
+                "</td><td>" + new Date(data[i].created_at).toLocaleDateString() + "</td>" +
                 // "<td><button class='btn btn-outline-info mb-2' data-toggle='modal' data-target='#exampleModal' id='" + data[i].id + "'>Editar</button></td>" +
-                "<td><button class='btn btn-outline-danger mb-2' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>Excluir</button></td></tr>"
+                "<td><button class='btn btn-outline-danger mb-2' data-toggle='modal' data-target='#modalAlert' id='" + data[i].id + "'>" + iconTrash + "Excluir </button></td > < /tr>"
         }
         $("#tbody").html(html)
         $("#valorTotalTodasVendas").html(valorTotalTodasVendas.toFixed(2))
@@ -64,18 +69,18 @@ class VendaCtrl {
             obj.nomeCliente = $("#nomeCliente").val()
             obj.produto = $("#produto option:selected").val()
             obj.quantidade = parseInt($("#quantidade").val())
-            obj.valorTotal = parseFloat($("#valorTotal").html()).toFixed(2)
+            obj.valorTotal = parseFloat($("#valorTotal").html())
             obj.formaPagamento = $("#formaPagamento option:selected").html()
 
-            // if (obj.fabrica === "" || obj.modelo === "" || obj.numeracao === NaN || obj.numeracao <= 0 || obj.quantidade === NaN || obj.quantidade <= 0 || obj.valorCompra == NaN || obj.valorVenda == NaN) {
-            //     main.setError("Por favor preencha todos os campos.")
-            //     return
-            // }
+            if (obj.nomeCliente === "" || obj.produto === "-" || obj.quantidade === NaN || obj.valorTotal == NaN || obj.formaPagamento == "") {
+                main.setError("Por favor preencha todos os campos.")
+                return
+            }
 
-            // if (obj.valorCompra <= 0 || obj.valorVenda <= 0 || obj.numeracao <= 0 || obj.quantidade <= 0) {
-            //     main.setError("Campos numerais devem ser maiores que zero")
-            //     return
-            // }
+            if (obj.quantidade <= 0 || obj.valorTotal <= 0) {
+                main.setError("Campos numerais devem ser maiores que zero")
+                return
+            }
 
             $("#error").addClass("d-none")
 
@@ -169,16 +174,21 @@ class VendaCtrl {
 
             if ($("#search").val().length > 2) {
                 api.loadDataVendaFiltered($(this).val())
-                $("#search").attr("disabled", true)
+                    // $("#search").attr("disabled", true)
             }
             e.stopImmediatePropagation()
         })
 
-        logOff
 
         $("#logOff").click(function(e) {
             var usuario = new UsuarioCtrl()
             usuario.logOff()
+            e.stopImmediatePropagation()
+        })
+
+        $("#listAll").click(function(e) {
+            var apis = new Apis()
+            apis.loadDataAllVendas()
             e.stopImmediatePropagation()
         })
 

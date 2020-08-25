@@ -15,6 +15,12 @@ class ControllerProduto
         return json_encode($produto);
     }
 
+    public function listAll()
+    {
+        $produto = Produto::orderBy('nome_fabrica', 'DESC')->orderBy('nome_modelo', 'DESC')->get();
+        return json_encode($produto);
+    }
+
     public function search($filter)
     {
 

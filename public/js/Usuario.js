@@ -28,7 +28,7 @@ class UsuarioCtrl {
 
 
             apis.loginUsuario(obj, function(data) {
-                if (data[0].user) {
+                if (data.length > 0) {
                     localStorage['user'] = data[0].user
                     window.location.href = "http://127.0.0.1:8000/venda"
                 } else {
