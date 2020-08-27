@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Produto;
+use App\Venda;
 
 use Illuminate\Http\Request;
 use PhpParser\Builder\Param;
@@ -76,6 +77,12 @@ class ControllerProduto
 
     public function delete(Request $request, $id)
     {
+
+        $venda = Venda::find($id);
+
+        if($venda === null){
+            return $this->indexJson();
+        }
         $produtoToDelete = Produto::find($id);
         $produtoToDelete->delete();
         return $this->indexJson();
@@ -87,5 +94,6 @@ class ControllerProduto
         where("id", "=", $id)->get();
         return json_encode($produto);
     }
+
 
 }

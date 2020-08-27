@@ -18,7 +18,7 @@ class CreateProduto extends Migration
             $table->id();
             $table->string('nome_fabrica');
             $table->string('nome_modelo');
-            $table->integer('tamanho_numeracao');
+            $table->string('tamanho_numeracao');
             $table->integer('quantidade_produto');
             $table->decimal('valor_compra', 5, 2);
             $table->decimal('valor_venda', 5, 2);

@@ -58,6 +58,7 @@
 
     <content>
         <div class="ml-4 mr-4">
+            <div class="alert alert-danger d-none" role="alert" id="error"></div>
             <div class="alert alert-success d-none" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -103,7 +104,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-2" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none ml-2" role="alert" id="errorModal"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">
@@ -117,7 +118,25 @@
                             </div>
                             <label class="input-group">Numeração</label>
                             <div class="input-group mb-3">
-                                <input type="number" id="numeracao" class="form-control" placeholder="Digite a numeração do modelo" min="0">
+                                <select class="custom-select" id="numeracao" placeholder="Selecione uma forma de pagamento">
+                                    <option selected></option>
+                                    <option value="PP">PP</option>
+                                    <option value="P">P</option>
+                                    <option value="G">M</option>
+                                    <option value="GG">GG</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
+                                    <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="38">38</option>
+                                    <option value="39">39</option>
+                                    <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
+                                </select>
                             </div>
                             <label class="input-group">Quantidade</label>
                             <div class="input-group mb-3">

@@ -18,6 +18,10 @@ class Main {
     setError(msg) {
         $("#error").html(msg)
         $("#error").removeClass("d-none")
+        $("#errorModal").html(msg)
+        $("#errorModal").removeClass("d-none")
+        $('#modalAlert').modal('hide')
+
     }
 
     setSuccess(msg) {

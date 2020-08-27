@@ -41,8 +41,11 @@ class ProdutoCtrl {
             "<path fill-rule='evenodd' d='M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z'/>" +
             "<path fill-rule='evenodd' d='M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z'/></svg>"
 
+        if (data.length == 0)
+            $("#tbody").html("<tr><td>Nenhum registro encontrado para o filtro aplicado...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+
         for (var i = 0; i < data.length; i++) {
-            var valorTotalProdutoItem = parseFloat(data[i].quantidade_produto * data[i].valor_venda).toFixed(2)
+            var valorTotalProdutoItem = parseFloat(data[i].quantidade_produto * data[i].valor_compra).toFixed(2)
             valorTotalInvestido = parseFloat(valorTotalInvestido) + parseFloat(valorTotalProdutoItem)
             html += "<tr><th scope='row'>" + data[i].id + "</th><td>" + data[i].nome_fabrica + "</td><td>" + data[i].nome_modelo + "</td><td>" +
                 data[i].tamanho_numeracao + "</td><td>" + data[i].quantidade_produto + "</td><td>R$" + data[i].valor_compra + "</td><td>R$" + data[i].valor_venda +
@@ -65,17 +68,17 @@ class ProdutoCtrl {
             var main = new Main()
             obj.fabrica = $("#fabrica").val()
             obj.modelo = $("#modelo").val()
-            obj.numeracao = parseInt($("#numeracao").val())
+            obj.numeracao = $("#numeracao option:selected").val()
             obj.quantidade = parseInt($("#quantidade").val())
             obj.valorCompra = parseFloat($("#valorCompra").val())
             obj.valorVenda = parseFloat($("#valorVenda").val()) //TODO - Gravando casa decimal sempre = .00
 
-            if (obj.fabrica === "" || obj.modelo === "" || obj.numeracao === NaN || obj.quantidade === NaN || obj.valorCompra == NaN || obj.valorVenda == NaN) {
+            if (obj.fabrica === "" || obj.modelo === "" || obj.numeracao === "" || obj.quantidade === NaN || obj.valorCompra == NaN || obj.valorVenda == NaN) {
                 main.setError("Por favor preencha todos os campos.")
                 return
             }
 
-            if (obj.valorCompra <= 0 || obj.valorVenda <= 0 || obj.numeracao <= 0 || obj.quantidade <= 0) {
+            if (obj.valorCompra <= 0 || obj.valorVenda <= 0 || obj.quantidade <= 0) {
                 main.setError("Campos numerais devem ser maiores que zero")
                 return
             }
@@ -89,7 +92,7 @@ class ProdutoCtrl {
                 apis.postProdutoData(obj, function(data) {
                     apis.produtos = data
                     var produto = new ProdutoCtrl()
-                    produto.renderTable(apis)
+                    produto.renderTable(data)
 
                     $("#exampleModal").modal('hide')
                     main.setSuccess("Cadastro realizado com sucesso!")
@@ -113,14 +116,12 @@ class ProdutoCtrl {
             var id = $(this).attr("id");
             $("#msgAlert").append("Tem certeza que deseja excluir o registro <strong class='ml-1'> CODIGO: " + id + " ?</strong>")
             $("#submitAlert").attr("meta", id)
-            e.stopImmediatePropagation()
         })
 
         $(".btn-outline-info").click(function(e) {
             var id = $(this).attr("id");
             var api = new Apis()
             api.getProdutoData(id);
-            e.stopImmediatePropagation()
         })
 
         $("#submitAlert").click(function(e) {
@@ -176,7 +177,7 @@ class ProdutoCtrl {
     loadProdutoDataModal(data) {
         $("#fabrica").val(data.produto[0].nome_fabrica)
         $("#modelo").val(data.produto[0].nome_modelo)
-        $("#numeracao").val(data.produto[0].tamanho_numeracao)
+        $("#numeracao option[value=" + data.produto[0].tamanho_numeracao + "]").attr('selected', 'selected')
         $("#quantidade").val(data.produto[0].quantidade_produto)
         $("#valorCompra").val(data.produto[0].valor_compra)
         $("#valorVenda").val(data.produto[0].valor_venda)

@@ -59,6 +59,7 @@
 
     <content>
         <div class="ml-4 mr-4">
+            <div class="alert alert-danger d-none" role="alert" id="error"></div>
             <div class="alert alert-success d-none" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -81,8 +82,11 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Quantidade</th>
                         <th scope="col">Total Venda(R$)</th>
+                        <th scope="col">Desconto(R$)</th>
+                        <th scope="col">Valor Final(R$)</th>
                         <th scope="col">Forma de Pagamento</th>
                         <th scope="col">Data</th>
+                        <th scope="col">Editar</th>
                         <th scope="col">Excluir</th>
                     </tr>
                 </thead>
@@ -103,7 +107,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-2" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none ml-2" role="alert" id="errorModal"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">
@@ -124,6 +128,10 @@
                             <label class="input-group">Numeração</label>
                             <div class="input-group mb-3">
                                 <input type="number" id="numeracao" class="form-control" placeholder="Selecione o produto" min="0">
+                            </div>
+                            <label class="input-group">Desconto</label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="desconto" class="form-control" placeholder="Digite o valor do desconto em R$" min="0">
                             </div>
                             <label class="input-group">Forma de Pagamento</label>
                             <div class="input-group mb-3">
@@ -146,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" id="submit">Salvar mudanças</button>
+                        <button type="button" class="btn btn-primary" id="submit" meta="">Salvar mudanças</button>
                     </div>
                 </div>
             </div>
@@ -189,6 +197,7 @@
     <script src="{{ asset('js/Usuario.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Apis.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Main.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/Mask.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Produto.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/Venda.js') }}" type="text/javascript"></script>
 </body>

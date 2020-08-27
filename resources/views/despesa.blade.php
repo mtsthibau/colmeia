@@ -58,6 +58,8 @@
 
     <content>
         <div class="ml-4 mr-4">
+            <div class="alert alert-danger d-none" role="alert" id="error"></div>
+            <div class="alert alert-success d-none" role="alert" id="success"></div>
             <button class="btn btn-success float-right mb-3" id="insConfronto" data-toggle="modal" data-target="#exampleModal">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-handbag" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 1a2 2 0 0 0-2 2v4.5a.5.5 0 0 1-1 0V3a3 3 0 0 1 6 0v4.5a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z" />
@@ -99,7 +101,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="alert alert-danger d-none ml-3" role="alert" id="error"></div>
+                        <div class="alert alert-danger d-none ml-3" role="alert" id="errorModal"></div>
                     </div>
                     <div class="row">
                         <div class="col col-12">

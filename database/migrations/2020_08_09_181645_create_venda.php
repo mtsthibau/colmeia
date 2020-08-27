@@ -21,6 +21,7 @@ class CreateVenda extends Migration
             $table->foreignId('id_produto');
             $table->integer('quantidade_produto');
             $table->decimal('total_venda', 5, 2);
+            $table->decimal('desconto_venda', 5, 2);
             $table->string('forma_pagamento');
             $table->timestamps();
 

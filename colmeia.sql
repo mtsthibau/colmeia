@@ -31,7 +31,7 @@ CREATE TABLE `produto` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nome_fabrica` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nome_modelo` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tamanho_numeracao` int(10) NOT NULL,
+  `tamanho_numeracao` varchar(10) NOT NULL,
   `quantidade_produto` int(10) NOT NULL,
   `valor_compra` DECIMAL(10,2)  NOT NULL,
   `valor_venda` DECIMAL(10,2)  NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE `venda` (
   `nome_cliente` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `codigo_item` bigint(20) NOT NULL,
   `total_venda` DECIMAL(10,2) NOT NULL,
+  `desconto_venda` DECIMAL(10,2) NOT NULL,
   `forma_pagamento` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL

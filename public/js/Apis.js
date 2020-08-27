@@ -92,6 +92,16 @@ class Apis {
         })
     }
 
+    getVendaData(id) {
+        var apis = new Apis()
+
+        this.getVenda(id, function(data) {
+            apis.venda = data
+            var venda = new VendaCtrl()
+            venda.loadVendaDataModal(apis)
+        })
+    }
+
     getProdutoData(id) {
         var apis = new Apis()
 
@@ -276,7 +286,7 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
@@ -336,10 +346,16 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
+
+                if (data.responseJSON.exception == "Illuminate\\Database\\QueryException") {
+                    main.setError("Esse produto foi utilizado em uma venda e não pode ser excluído.")
+                    return null
+                }
+
                 main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
                 return null
             }
@@ -367,6 +383,23 @@ class Apis {
     }
 
 
+    getVenda(id, callBack) {
+        var url = "http://127.0.0.1:8000/api/venda/" + id
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                return callBack(data);
+            },
+            error: function(data) {
+                alert("Erro durante download dos dados. Por favor tente novamente")
+                return null;
+            }
+        });
+    }
+
     postVendaData(data, callBack) {
         var url = "http://127.0.0.1:8000/api/novaVenda"
 
@@ -387,7 +420,7 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
@@ -396,6 +429,37 @@ class Apis {
             }
         });
     }
+
+    updateVendaData(id, data, callBack) {
+        var url = "http://127.0.0.1:8000/api/editaVenda/" + id
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    var main = new Main()
+                    main.setError(data.error)
+                    return
+                }
+                return callBack(data.data);
+            },
+            error: function(data) {
+                var main = new Main()
+                main.setError("Erro durante a gravação dos dados.Por favor tente novamente!")
+                return null
+            }
+        });
+    }
+
 
     deleteVenda(id, callBack) {
         var url = "http://127.0.0.1:8000/api/deletaVenda/" + id
@@ -417,7 +481,7 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
@@ -531,7 +595,7 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
@@ -591,7 +655,7 @@ class Apis {
                     main.setError(data.error)
                     return
                 }
-                return callBack(data);
+                return callBack(data.data);
             },
             error: function(data) {
                 var main = new Main()
